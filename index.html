@@ -4,14 +4,94 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>لمسة</title>
+  <!-- ربط manifest للـ PWA -->
+  <link rel="manifest" href="/manifest.json">
+  <!-- لون الشريط العلوي على iOS -->
+  <meta name="theme-color" content="#ff6b6b">
+  <!-- دعم iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+
   <style>
-    body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background: #f8f1f1; color: #333; }
-    h1 { color: #ff6b6b; }
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+      background: #f8f1f1;
+      color: #333;
+      margin: 0;
+    }
+    h1 { color: #ff6b6b; margin-bottom: 20px; }
+    p { font-size: 18px; margin: 15px 0; }
+    #installButton {
+      display: none;
+      padding: 14px 30px;
+      font-size: 18px;
+      background: #ff6b6b;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin: 30px auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+    #installButton:hover {
+      background: #e55a5a;
+    }
   </style>
 </head>
 <body>
-  <h1>مرحبًا بكي في لمسة</h1>
+  <h1>مرحبًا بك في لمسة</h1>
   <p>موقع زواج شرعي وقصص يومية ملهمة</p>
   <p>جاري التحميل... انتظرنا قريبًا!</p>
+
+  <!-- زر التثبيت الواضح اللي هيظهر لما المتصفح جاهز -->
+  <button id="installButton">تثبيت التطبيق على هاتفك</button>
+
+  <script>
+    // متغير لحفظ الـ prompt التلقائي من المتصفح
+    let deferredPrompt;
+
+    // لما المتصفح يجهز زر التثبيت التلقائي
+    window.addEventListener('beforeinstallprompt', (e) => {
+      // نمنع الـ prompt التلقائي عشان نتحكم فيه بنفسنا
+      e.preventDefault();
+      // نحفظه عشان نستخدمه بعدين
+      deferredPrompt = e;
+      // نظهر الزر اللي عملناه
+      document.getElementById('installButton').style.display = 'block';
+    });
+
+    // لما المستخدم يضغط على الزر اللي أضفناه
+    document.getElementById('installButton').addEventListener('click', async () => {
+      if (deferredPrompt) {
+        // نطلع النافذة الرسمية للتثبيت
+        deferredPrompt.prompt();
+        // نستنى إجابة المستخدم
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log('المستخدم رد على طلب التثبيت:', outcome);
+        // ننسى الـ prompt بعد الاستخدام
+        deferredPrompt = null;
+        // نخفي الزر
+        document.getElementById('installButton').style.display = 'none';
+      }
+    });
+
+    // لو المستخدم ثبت التطبيق بالفعل (من أي طريقة)
+    window.addEventListener('appinstalled', () => {
+      console.log('تم تثبيت التطبيق بنجاح');
+      document.getElementById('installButton').style.display = 'none';
+    });
+
+    // تسجيل Service Worker (لو موجود)
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => console.log('Service Worker مسجل بنجاح'))
+          .catch(err => console.log('خطأ في Service Worker:', err));
+      });
+    }
+  </script>
 </body>
 </html>
