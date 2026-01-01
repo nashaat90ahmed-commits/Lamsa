@@ -1,11 +1,12 @@
 {
-  "name": "Lamsa",
+  "name": "Lamsa - تعارف وزواج",
   "short_name": "Lamsa",
-  "description": "موقع تعارف و زواج",
+  "description": "موقع آمن للتعارف والزواج على أسس طيبة",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#fff9f9",
+  "background_color": "#ffffff",
   "theme_color": "#ff4d6d",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "/icon-192.png",
