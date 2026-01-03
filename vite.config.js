@@ -13,8 +13,8 @@ export default defineConfig({
         description: 'لقاء يبدأ بلمسة...',
         theme_color: '#D4AF37',
         icons: [
-          { src: 'https://via.placeholder.com/192/0F1C3F/D4AF37?text=لمسة', sizes: '192x192', type: 'image/png' },
-          { src: 'https://via.placeholder.com/512/0F1C3F/D4AF37?text=لمسة', sizes: '512x512', type: 'image/png' }
+          { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
+          { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' }
         ]
       }
     })
