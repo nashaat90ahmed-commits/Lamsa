@@ -1,64 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;700&display=swap');
-
-:root {
-  --gold: #D4AF37;
-  --dark: #0A0A0A;
-  --navy: #0F1C3F;
-  --light-bg: #FAF9F6;
-  --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  direction: rtl;
-  font-family: 'Tajawal', sans-serif;
-}
-
-body {
-  background-color: var(--light-bg);
-  color: var(--dark);
-  overflow-x: hidden;
-}
-
-button, input, textarea {
-  font-family: 'Tajawal', sans-serif;
-  outline: none;
-  border: none;
-}
-
-.gold {
-  color: var(--gold);
-}
-
-.bg-gold {
-  background-color: var(--gold);
-}
-
-.text-navy {
-  color: var(--navy);
-}
-
-.fullscreen-img {
-  width: 100vw;
-  height: 85vh;
-  object-fit: cover;
-  border-radius: 12px;
-  box-shadow: var(--card-shadow);
-}
-
-.btn-primary {
-  background: var(--gold);
-  color: white;
-  padding: 12px 24px;
-  border-radius: 30px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(212, 175, 55, 0.4);
-}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>لمسة</title>
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#D4AF37" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png" />
+    <link rel="apple-touch-icon" href="/icons/icon-512.png" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
