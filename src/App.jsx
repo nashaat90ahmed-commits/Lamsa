@@ -10,6 +10,34 @@ function App() {
   const [user, setUser] = useState(null);
   const [onboarded, setOnboarded] = useState(false);
   const [currentPage, setCurrentPage] = useState('discovery');
+  const [installPrompt, setInstallPrompt] = useState(null);
+  const [isInstalled, setIsInstalled] = useState(false);
+
+  // اكتشاف طلب التثبيت من المتصفح
+  useEffect(() => {
+    const handler = (e) => {
+      e.preventDefault();
+      setInstallPrompt(e);
+    };
+    window.addEventListener('beforeinstallprompt', handler);
+
+    // تحقق إذا كان التطبيق مثبتًا بالفعل
+    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
+      setIsInstalled(true);
+    }
+
+    return () => window.removeEventListener('beforeinstallprompt', handler);
+  }, []);
+
+  const handleInstall = async () => {
+    if (!installPrompt) return;
+    installPrompt.prompt();
+    const { outcome } = await installPrompt.userChoice;
+    if (outcome === 'accepted') {
+      setIsInstalled(true);
+    }
+    setInstallPrompt(null);
+  };
 
   useEffect(() => {
     const savedUser = localStorage.getItem('lamsa_user');
@@ -28,7 +56,7 @@ function App() {
       case 'chat': return <Chat />;
       case 'stories': return <Stories />;
       case 'profile': return <Profile />;
-      default: return <Discovery />;
+      default: return <Discovery onInstallClick={handleInstall} showInstall={!isInstalled} />;
     }
   };
 
@@ -36,7 +64,6 @@ function App() {
     <div style={{ paddingBottom: '70px' }}>
       {renderPage()}
       
-      {/* شريط تنقل سفلي — لتجربة كل الأقسام */}
       <div style={{
         position: 'fixed',
         bottom: 0,
